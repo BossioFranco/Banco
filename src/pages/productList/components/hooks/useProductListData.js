@@ -17,7 +17,6 @@ const useProductListData = () => {
             })
             .then(data => {
                 if (Array.isArray(data.data)) {
-                    // Invertir la lista de productos
                     const reversedProducts = data.data.reverse();
                     setProducts(reversedProducts);
                 } else {

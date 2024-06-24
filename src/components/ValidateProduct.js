@@ -7,7 +7,7 @@ export const validateProduct = async (id, name, description, logo, releaseDate, 
             return response.ok;
         } catch (error) {
             console.error('Error checking product ID existence:', error);
-            return false; // Return false if there's an error
+            return false; 
         }
     };
 
@@ -19,7 +19,7 @@ export const validateProduct = async (id, name, description, logo, releaseDate, 
     } else if (id.length < 3 || id.length > 10) {
         errors.id = 'Invalid ID length (must be between 3 and 10 characters)';
     } else if (edit !== 'edit') {
-        const idExists = await checkIdExistence(); // Call the async function here and await the result
+        const idExists = await checkIdExistence(); 
         if (idExists) {
             errors.id = 'ID already exists';
         }
