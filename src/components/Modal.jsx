@@ -1,30 +1,32 @@
 import React, { useState } from "react";
 import { Modal, Text, View, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { REACT_NATIVE_APP_API_URL } from '@env';
+import { Entypo } from '@expo/vector-icons';
 
-const ModalEditar = ({ nombre, id }) => {
+const EditModal = ({ name, id }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const navigator = useNavigation();
 
     const handleDelete = async () => {
         try {
-            const response = await fetch(`http://192.168.0.244:3002/bp/products/${id}`, {
+            const response = await fetch(`${REACT_NATIVE_APP_API_URL}/bp/products/${id}`, {
                 method: 'DELETE'
             });
             if (response.ok) {
-                Alert.alert('Éxito', 'Producto eliminado correctamente.');
-                navigator.navigate('Home')
-                // Aquí podrías agregar lógica adicional, como actualizar la lista de productos en tu pantalla principal.
+                Alert.alert('Success', 'Product deleted successfully.');
+                navigator.navigate('Home');
+                // Additional logic could be added here, such as updating the product list on your main screen.
             } else {
                 const data = await response.json();
-                Alert.alert('Error', data.message || 'Algo salió mal al eliminar el producto.');
+                Alert.alert('Error', data.message || 'Something went wrong while deleting the product.');
             }
         } catch (error) {
-            console.error('Error al eliminar el producto:', error);
-            Alert.alert('Error', 'No se pudo conectar con el servidor.');
+            console.error('Error deleting product:', error);
+            Alert.alert('Error', 'Could not connect to the server.');
         }
-        setModalVisible(false); // Cerrar el modal después de la acción
-        navigator.navigate('Home'); // Navegar de vuelta a la pantalla principal (ajusta según sea necesario)
+        setModalVisible(false); // Close the modal after the action
+        navigator.navigate('Home'); // Navigate back to the main screen (adjust as needed)
     };
 
     return (
@@ -45,14 +47,14 @@ const ModalEditar = ({ nombre, id }) => {
                                 setModalVisible(false);
                             }}
                         >
-                            <Text style={{ fontSize: 24 }}>x</Text>
+                            <Entypo name="cross" size={34} color="black" />
                         </TouchableOpacity>
                         <View style={{ marginTop: 30, marginBottom: 30, borderColor: 'grey', borderTopWidth: 0.3, borderBottomWidth: 0.3, paddingVertical: 45, width: '100%' }}>
-                            <Text style={{ paddingHorizontal: 3, alignSelf: 'center' }}>¿Estás seguro de eliminar el producto {nombre}?</Text>
+                            <Text style={{ paddingHorizontal: 3, alignSelf: 'center' }}>Are you sure you want to delete {name}?</Text>
                         </View>
 
                         <TouchableOpacity onPress={handleDelete} style={{ backgroundColor: '#FFDD00', height: 50, justifyContent: 'center', alignItems: 'center', marginBottom: 10, width: '90%', borderRadius: 5 }}>
-                            <Text style={{ color: 'black', fontWeight: '500' }}>Confirmar</Text>
+                            <Text style={{ color: 'black', fontWeight: '500' }}>Confirm</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{ backgroundColor: '#AFAFAF', height: 50, justifyContent: 'center', alignItems: 'center', marginBottom: 10, width: '90%', borderRadius: 5 }}
@@ -60,7 +62,7 @@ const ModalEditar = ({ nombre, id }) => {
                                 setModalVisible(false);
                             }}
                         >
-                            <Text style={{ color: 'black', fontWeight: '500' }}>Cerrar</Text>
+                            <Text style={{ color: 'black', fontWeight: '500' }}>Close</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -69,10 +71,10 @@ const ModalEditar = ({ nombre, id }) => {
                 onPress={() => { setModalVisible(true) }}
                 style={{ backgroundColor: 'red', height: 50, justifyContent: 'center', alignItems: 'center', marginTop: 10, borderRadius: 5 }}
             >
-                <Text style={{ color: 'black', fontWeight: '500' }}>Eliminar</Text>
+                <Text style={{ color: 'black', fontWeight: '500' }}>Delete</Text>
             </TouchableOpacity>
         </View>
     );
 };
 
-export default ModalEditar;
+export default EditModal;
