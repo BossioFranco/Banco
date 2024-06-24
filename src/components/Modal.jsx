@@ -16,7 +16,6 @@ const EditModal = ({ name, id }) => {
             if (response.ok) {
                 Alert.alert('Success', 'Product deleted successfully.');
                 navigator.navigate('Home');
-                // Additional logic could be added here, such as updating the product list on your main screen.
             } else {
                 const data = await response.json();
                 Alert.alert('Error', data.message || 'Something went wrong while deleting the product.');
@@ -25,8 +24,8 @@ const EditModal = ({ name, id }) => {
             console.error('Error deleting product:', error);
             Alert.alert('Error', 'Could not connect to the server.');
         }
-        setModalVisible(false); // Close the modal after the action
-        navigator.navigate('Home'); // Navigate back to the main screen (adjust as needed)
+        setModalVisible(false); 
+        navigator.navigate('Home'); 
     };
 
     return (
